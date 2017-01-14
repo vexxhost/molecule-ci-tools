@@ -29,7 +29,7 @@ with open('molecule.yml', 'w') as fd:
     fd.write(data)
 
 # Print the configuration file
-print config
+print data
 
 # Run the tests
 ret = os.system("molecule test --destroy=always")
