@@ -5,27 +5,32 @@ import os
 import sys
 import yaml
 
-from molecule.config import ConfigV1
-
 # If we're not running in CI, fail.
 if os.getenv('CONTINUOUS_INTEGRATION') != 'true':
     sys.exit(errno.EINVAL)
 
-# Get config and suffix with build number
-c = ConfigV1()
-for i in c.config['openstack']['instances']:
+# Load configuration file
+with open('molecule.yml', 'r') as fd:
+    config = yaml.load(fd)
+
+# Append the build number
+for i in config['openstack']['instances']:
     i['name'] = "%s-%s" % (i['name'], os.getenv('TRAVIS_BUILD_NUMBER'))
 
 # Change molecule_dir so that it uses different keys
 # https://github.com/metacloud/molecule/blob/master/molecule/driver/openstackdriver.py#L282-L285
-c.config['molecule']['molecule_dir'] = "%s-%s" % (c.config['molecule']['molecule_dir'], os.getenv('TRAVIS_BUILD_NUMBER'))
-c._build_config_paths()
+mc = config.get('molecule', {})
+mc['molecule_dir'] = ".molecule-%s" % os.getenv('TRAVIS_BUILD_NUMBER')
+config['molecule'] = mc
     
 # Create updated configuration file
-data = yaml.dump(c.config)
+data = yaml.dump(config)
 with open('molecule.yml', 'w') as fd:
     fd.write(data)
 
+# Print the configuration file
+print config
+    
 # Run the tests
 ret = os.system("molecule test --destroy=always")
 exit_code = os.WEXITSTATUS(ret)
