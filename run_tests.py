@@ -22,7 +22,7 @@ for i in config['openstack']['instances']:
 mc = config.get('molecule', {})
 mc['molecule_dir'] = ".molecule-%s" % os.getenv('TRAVIS_BUILD_NUMBER')
 config['molecule'] = mc
-    
+
 # Create updated configuration file
 data = yaml.dump(config)
 with open('molecule.yml', 'w') as fd:
@@ -30,7 +30,7 @@ with open('molecule.yml', 'w') as fd:
 
 # Print the configuration file
 print config
-    
+
 # Run the tests
 ret = os.system("molecule test --destroy=always")
 exit_code = os.WEXITSTATUS(ret)
