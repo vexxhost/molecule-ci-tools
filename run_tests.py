@@ -19,6 +19,7 @@ for i in c.config['openstack']['instances']:
 # Change molecule_dir so that it uses different keys
 # https://github.com/metacloud/molecule/blob/master/molecule/driver/openstackdriver.py#L282-L285
 c.config['molecule']['molecule_dir'] = "%s-%s" % (c.config['molecule']['molecule_dir'], os.getenv('TRAVIS_BUILD_NUMBER'))
+c._build_config_paths()
     
 # Create updated configuration file
 data = yaml.dump(c.config)
