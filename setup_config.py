@@ -10,7 +10,7 @@ if not os.getenv('CONTINUOUS_INTEGRATION') and not os.getenv('JENKINS_URL'):
     sys.exit(errno.EINVAL)
 
 # Select build number
-build = os.getenv('BUILD_NUMBER')
+build = "%s-%s" % (os.getenv('JOB_NAME'), os.getenv('BUILD_NUMBER'))
 if not build:
     build = os.getenv('TRAVIS_BUILD_NUMBER')
 
