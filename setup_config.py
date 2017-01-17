@@ -14,13 +14,18 @@ build = os.getenv('BUILD_NUMBER')
 if not build:
     build = os.getenv('TRAVIS_BUILD_NUMBER')
 
+# Add Prefix
+prefix = ''
+if len(sys.argv) == 2:
+    prefix = sys.argv[1]
+
 # Load configuration file
 with open('molecule.yml', 'r') as fd:
     config = yaml.load(fd)
 
 # Append the build number
 for i in config['openstack']['instances']:
-    i['name'] = "%s-%s" % (i['name'], build)
+    i['name'] = "%s%s-%s" % (prefix, i['name'], build)
 
 # Change molecule_dir so that it uses different keys
 # https://github.com/metacloud/molecule/blob/master/molecule/driver/openstackdriver.py#L282-L285
