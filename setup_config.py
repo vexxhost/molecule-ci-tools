@@ -17,7 +17,7 @@ if not build:
 # Add Prefix
 prefix = ''
 if len(sys.argv) == 2:
-    prefix = sys.argv[1]
+    prefix = "%s-" % sys.argv[1]
 
 # Load configuration file
 with open('molecule.yml', 'r') as fd:
