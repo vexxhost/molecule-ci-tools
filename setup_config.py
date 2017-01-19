@@ -11,7 +11,7 @@ if not os.getenv('CONTINUOUS_INTEGRATION') and not os.getenv('JENKINS_URL'):
 
 # Select build number
 build = "%s-%s" % (os.getenv('JOB_NAME'), os.getenv('BUILD_NUMBER'))
-if not build:
+if build == 'None-None':
     build = os.getenv('TRAVIS_BUILD_NUMBER')
 build = build.replace('/', '-')
 
