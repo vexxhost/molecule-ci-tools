@@ -30,9 +30,9 @@ for i in config['openstack']['instances']:
 
 # Change molecule_dir so that it uses different keys
 # https://github.com/metacloud/molecule/blob/master/molecule/driver/openstackdriver.py#L282-L285
-mc = config.get('molecule', {})
-mc['molecule_dir'] = ".molecule-%s" % build
-config['molecule'] = mc
+# mc = config.get('molecule', {})
+# mc['molecule_dir'] = ".molecule-%s" % build
+# config['molecule'] = mc
 
 # Create updated configuration file
 data = yaml.dump(config)
